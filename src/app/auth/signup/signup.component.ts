@@ -1,5 +1,6 @@
+import { AuthService } from './../auth.service';
 import { Component, OnInit } from '@angular/core';
-import {MatFormFieldModule} from '@angular/material/form-field'
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-signup',
@@ -7,10 +8,19 @@ import {MatFormFieldModule} from '@angular/material/form-field'
   styleUrls: ['./signup.component.css']
 })
 export class SignupComponent implements OnInit {
-
-  constructor() { }
+  maxDate;
+  constructor(private authService: AuthService) { }
 
   ngOnInit(): void {
+    this.maxDate = new Date();
+    this.maxDate.setDate(this.maxDate.getFullYear() - 18);
+  }
+
+  onSubmit(form: NgForm) {
+    this.authService.registerUser({
+      email: form.value.email,
+      password: form.value.password
+    })
   }
 
 }
